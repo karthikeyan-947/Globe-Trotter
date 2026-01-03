@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>User Profile - GlobeTrotter</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141c] dark:text-white">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-50 bg-white/95 dark:bg-[#1A2633]/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-3xl">travel_explore</span>
+                    <h1 class="text-xl font-bold">GlobeTrotter</h1>
+                </div>
+                <nav class="flex items-center gap-6">
+                    <a href="dashboard.html" class="text-sm font-medium text-slate-600 hover:text-primary">Dashboard</a>
+                    <a href="calendar.html" class="text-sm font-medium text-slate-600 hover:text-primary">Calendar</a>
+                    <a href="profile.html" class="text-sm font-medium text-primary">Profile</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Profile Header -->
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 mb-6">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <!-- Profile Image -->
+                        <div class="relative">
+                            <div
+                                class="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
+                                <span id="userInitial">U</span>
+                            </div>
+                            <button
+                                class="absolute bottom-0 right-0 bg-white dark:bg-slate-700 p-2 rounded-full shadow-lg border-2 border-white dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                <span class="material-symbols-outlined text-primary text-lg">edit</span>
+                            </button>
+                        </div>
+
+                        <!-- User Details -->
+                        <div class="flex-1 text-center md:text-left">
+                            <h2 id="userName" class="text-2xl font-bold mb-1">User Name</h2>
+                            <p id="userEmail" class="text-slate-500 dark:text-slate-400 mb-4">user@example.com</p>
+                            <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">location_on</span>
+                                    <span id="userCity">City, Country</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">phone</span>
+                                    <span id="userPhone">+91 XXXXX XXXXX</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Button -->
+                        <button
+                            class="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">edit</span>
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preplanned Trips -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold mb-4">Preplanned Trips</h3>
+                    <div id="preplannedTrips" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Trips will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Previous Trips -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Previous Trips</h3>
+                    <div id="previousTrips" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Trips will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        async function loadProfile() {
+            // Load user from localStorage
+            const userStr = localStorage.getItem('currentUser');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                document.getElementById('userName').textContent =
+                    (user.firstName || 'User') + ' ' + (user.lastName || '');
+                document.getElementById('userEmail').textContent = user.email || 'user@example.com';
+                document.getElementById('userCity').textContent =
+                    (user.city || 'City') + ', ' + (user.country || 'Country');
+                document.getElementById('userPhone').textContent = user.phone || '+91 XXXXX XXXXX';
+                document.getElementById('userInitial').textContent =
+                    (user.firstName || 'U').charAt(0).toUpperCase();
+            }
+
+            // Load trips
+            try {
+                const res = await fetch(API_BASE + '/trip');
+                const trips = await res.json();
+                displayTrips(trips);
+            } catch (err) {
+                console.error('Error loading trips:', err);
+            }
+        }
+
+        function displayTrips(trips) {
+            const preplanned = document.getElementById('preplannedTrips');
+            const previous = document.getElementById('previousTrips');
+
+            if (trips.length === 0) {
+                preplanned.innerHTML = '<p class="text-slate-500 col-span-3">No trips planned yet.</p>';
+                previous.innerHTML = '<p class="text-slate-500 col-span-2">No previous trips.</p>';
+                return;
+            }
+
+            // Show first few as preplanned
+            preplanned.innerHTML = trips.slice(0, 3).map(trip => `
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                    <div class="h-24 bg-gradient-to-br from-primary/20 to-blue-400/20 rounded-lg mb-3 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl text-primary/50">flight_takeoff</span>
+                    </div>
+                    <h4 class="font-bold text-sm mb-2 truncate">${trip.name}</h4>
+                    <button onclick="viewTrip(${trip.id})" class="w-full py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
+                        View
+                    </button>
+                </div>
+            `).join('');
+
+            // Show rest as previous
+            if (trips.length > 3) {
+                previous.innerHTML = trips.slice(3).map(trip => `
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex items-center gap-4">
+                        <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-2xl text-slate-400">terrain</span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm mb-1">${trip.name}</h4>
+                            <p class="text-xs text-slate-500">${trip.stops?.length || 0} stops</p>
+                        </div>
+                        <button onclick="viewTrip(${trip.id})" class="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
+                            View
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                previous.innerHTML = '<p class="text-slate-500 col-span-2">No previous trips.</p>';
+            }
+        }
+
+        function viewTrip(id) {
+            localStorage.setItem('currentTripId', id);
+            window.location.href = 'itinerary.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+
+</html>
