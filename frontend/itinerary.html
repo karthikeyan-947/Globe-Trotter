@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GlobeTrotter - Itinerary View</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-[#0d141c] dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+    <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] dark:border-gray-800 bg-white dark:bg-[#1A2633] px-10 py-3 shadow-sm">
+        <div class="flex items-center gap-4 text-[#0d141c] dark:text-white">
+            <div class="size-10 text-primary">
+                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4Z"
+                        fill="currentColor" fill-opacity="0.1"></path>
+                    <path d="M24 4C24 4 36 12.9543 36 24C36 35.0457 24 44 24 44" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+                    <path d="M24 4C24 4 12 12.9543 12 24C12 35.0457 24 44 24 44" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+                    <path d="M4 24H44" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="4"></path>
+                    <path
+                        d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"
+                        stroke="currentColor" stroke-linejoin="round" stroke-width="4"></path>
+                </svg>
+            </div>
+            <h2 class="text-[#0d141c] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">GlobeTrotter
+            </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8 items-center">
+            <div class="hidden md:flex items-center gap-9">
+                <a class="text-[#0d141c] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="dashboard.html">Dashboard</a>
+                <a class="text-[#0d141c] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="dashboard.html">My Trips</a>
+                <a class="text-primary text-sm font-bold leading-normal" href="itinerary.html">Itinerary</a>
+                <a class="text-[#0d141c] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="budget%20summary.html">Budget</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button aria-label="Notifications" class="text-slate-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">notifications</span>
+                </button>
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20"
+                    data-alt="User profile avatar image"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBnSlnL8PvE3KRcnG5myt1HobHk3fvBUtUHj_NF_-MINoyJGc1oKvYEKWcVi2lsiWlpusT0TYLJokb-3IWBDuZrjM0wTbR3RqU9BS8d3SvONdjfQuSQH8jSh-CA-vk-Dze59OqYfXF28CnoJU4Yl-uGXPTNQ1FjuvVzj46tRpvf4btogYiXv_kNrV0qpYkXSakC1BTSZ_giKxUyOzCDgDdKTzxE8CGZOaBQksnNF8DHkrd93uBsmk_7iC_P4dyJ5vUlk2g4VNosbJc");'>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex-1 flex justify-center py-8 px-4 sm:px-8 lg:px-12 xl:px-40">
+        <div class="flex flex-col max-w-[1200px] w-full gap-8">
+            <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 p-4 border-b border-gray-200 dark:border-gray-800 pb-6">
+                <div class="flex flex-col gap-2">
+                    <h1
+                        class="text-3xl md:text-4xl font-black leading-tight tracking-tight text-[#0d141c] dark:text-white">
+                        Summer in Southern India</h1>
+                    <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-base font-normal">
+                        <span class="material-symbols-outlined text-lg">calendar_month</span>
+                        <span>Aug 12 - Aug 20</span>
+                        <span class="mx-1">•</span>
+                        <span class="material-symbols-outlined text-lg">group</span>
+                        <span>2 Travelers</span>
+                    </div>
+                </div>
+                <button
+                    class="flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-blue-600 text-white text-sm font-bold rounded-lg transition-colors shadow-md shadow-blue-500/20">
+                    <span class="material-symbols-outlined text-sm">edit</span>
+                    <span>Edit Itinerary</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <aside class="hidden lg:block lg:col-span-4 xl:col-span-3 space-y-6">
+                    <div class="sticky top-24 space-y-6">
+                        <div
+                            class="bg-white dark:bg-[#1e2936] rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="h-48 w-full bg-cover bg-center relative group cursor-pointer"
+                                data-alt="Map view of southern india route" data-location="South India"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCqRKsRJoMkE500Afj1eWOt4SNA8LKhmzCpe3-qPcdoZJWNfmJBJre2WWgtFpoc9Fs839i44J45gIkLpl38Q8ebfxqRe_OkKZot4wAwrMjx1-7iREMfIxSIkN_pPKhPO-lbMPYHOmer7T5G_rEiPHw3TQe_rgx2Hi5IRzxP3HtiD5vykUSKmoVGGP8IglxZ4RZityEqkV6mI39hAr9hfyiI9Ox8Iy8nhUOl2mbhFSj2W26VGmWIKRj_Xgs8-yB2nel7MDhTg2193RQ");'>
+                                <div
+                                    class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                    <span
+                                        class="bg-white/90 dark:bg-black/70 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm backdrop-blur-sm flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">map</span>
+                                        View Map
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div
+                                class="bg-white dark:bg-[#1e2936] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <p
+                                    class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">
+                                    Duration</p>
+                                <p class="text-xl font-bold text-[#0d141c] dark:text-white">9 Days</p>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1e2936] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <p
+                                    class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">
+                                    Budget</p>
+                                <p class="text-xl font-bold text-[#0d141c] dark:text-white">$1,450</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-[#1e2936] rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+                            <h3 class="text-sm font-bold text-[#0d141c] dark:text-white mb-4 uppercase tracking-wider">
+                                Quick Jump</h3>
+                            <div class="flex flex-col gap-2"
+                                style="--radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(13,128,242)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e');">
+                                <label
+                                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
+                                    <input checked=""
+                                        class="h-4 w-4 border-2 border-gray-300 dark:border-gray-600 bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:ring-0 focus:ring-offset-0 checked:focus:border-primary transition-all"
+                                        name="day-nav" type="radio" />
+                                    <div class="flex flex-col">
+                                        <span
+                                            class="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary">Day
+                                            1: Chennai</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
+                                    <input
+                                        class="h-4 w-4 border-2 border-gray-300 dark:border-gray-600 bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:ring-0 focus:ring-offset-0 checked:focus:border-primary transition-all"
+                                        name="day-nav" type="radio" />
+                                    <div class="flex flex-col">
+                                        <span
+                                            class="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary">Day
+                                            2: Bangalore</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
+                                    <input
+                                        class="h-4 w-4 border-2 border-gray-300 dark:border-gray-600 bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:ring-0 focus:ring-offset-0 checked:focus:border-primary transition-all"
+                                        name="day-nav" type="radio" />
+                                    <div class="flex flex-col">
+                                        <span
+                                            class="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary">Day
+                                            3: Mysore</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
+                                    <input
+                                        class="h-4 w-4 border-2 border-gray-300 dark:border-gray-600 bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:ring-0 focus:ring-offset-0 checked:focus:border-primary transition-all"
+                                        name="day-nav" type="radio" />
+                                    <div class="flex flex-col">
+                                        <span
+                                            class="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary">Day
+                                            4: Ooty</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <main class="col-span-1 lg:col-span-8 xl:col-span-9 relative">
+                    <div
+                        class="absolute left-4 md:left-8 top-8 bottom-8 w-0.5 bg-gray-200 dark:bg-gray-700 hidden sm:block">
+                    </div>
+                    <div class="space-y-8 relative">
+                        <div class="relative pl-0 sm:pl-20 group">
+                            <div
+                                class="absolute left-4 md:left-8 top-6 -translate-x-1/2 size-4 rounded-full border-4 border-white dark:border-[#1A2633] bg-primary hidden sm:block z-10 shadow-sm">
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1e2936] rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md">
+                                <div
+                                    class="bg-gray-50 dark:bg-[#253240] p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-wrap justify-between items-center gap-4">
+                                    <div>
+                                        <h3
+                                            class="text-xl font-bold text-[#0d141c] dark:text-white flex items-center gap-2">
+                                            Day 1: Chennai <span class="text-slate-400 font-normal text-lg">→</span>
+                                            Bangalore
+                                        </h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Aug 12 •
+                                            Monday</p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button aria-label="Add Note"
+                                            class="p-2 text-slate-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                            <span class="material-symbols-outlined">edit_note</span>
+                                        </button>
+                                        <button aria-label="View on Map"
+                                            class="p-2 text-slate-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                            <span class="material-symbols-outlined">map</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="px-6 pt-6">
+                                    <div
+                                        class="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg border border-blue-100 dark:border-blue-800/30">
+                                        <span class="material-symbols-outlined text-lg">train</span>
+                                        <span class="text-sm font-bold">Vande Bharat Express</span>
+                                        <span class="w-1 h-1 bg-blue-300 rounded-full"></span>
+                                        <span class="text-sm font-medium">5h 30m Travel Time</span>
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-6">
+                                    <div class="flex gap-4 items-start">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-[#0d141c] dark:text-white">10:00
+                                                AM</span>
+                                        </div>
+                                        <div
+                                            class="relative flex-1 bg-white dark:bg-[#1e2936] rounded-lg border border-gray-100 dark:border-gray-700 p-4 hover:border-primary/30 transition-colors flex gap-4">
+                                            <div class="w-1.5 bg-green-500 absolute left-0 top-0 bottom-0 rounded-l-lg">
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-[#0d141c] dark:text-white">Depart from Chennai
+                                                    Central</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Seat 12A, 12B
+                                                    • Coach C4</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 items-start">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-[#0d141c] dark:text-white">04:00
+                                                PM</span>
+                                        </div>
+                                        <div
+                                            class="relative flex-1 bg-white dark:bg-[#1e2936] rounded-lg border border-gray-100 dark:border-gray-700 p-4 hover:border-primary/30 transition-colors flex flex-col sm:flex-row gap-4">
+                                            <div class="w-1.5 bg-primary absolute left-0 top-0 bottom-0 rounded-l-lg">
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-[#0d141c] dark:text-white">Check-in at Hotel
+                                                    Bangalore</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Booking
+                                                    #H8923 • 2 Nights</p>
+                                                <div class="mt-3 flex gap-2">
+                                                    <span
+                                                        class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">Relax</span>
+                                                    <span
+                                                        class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">Wifi</span>
+                                                </div>
+                                            </div>
+                                            <div class="w-full sm:w-24 h-24 sm:h-auto rounded-lg bg-cover bg-center shrink-0"
+                                                data-alt="Modern hotel room interior"
+                                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt5PVeFLKzHxroEsGngy_npFJpKQnfYT0CgbyVg5_rp3BokSLaVEkK2y9eypBNKl0M5jDIhcsn8SclllrDggRZdiJ7H6SLyOLoXXi2Y9dI72SiGM_4zezvRi7bUGjNBVf4HDHZv8MA3MH7KhTSqeTtIudStvuZfm4oY-k00pgiZIqC5AmSyJKWh7xx18Z5HGI_RA-x2VX8i0oHjfLe07nAYVwga9n4p5g_jmuJooSRK4XcupAd-PcF1nj1R33EdxCIu4Y1VAfKaKw");'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 items-start">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-[#0d141c] dark:text-white">06:00
+                                                PM</span>
+                                        </div>
+                                        <div
+                                            class="relative flex-1 bg-white dark:bg-[#1e2936] rounded-lg border border-gray-100 dark:border-gray-700 p-4 hover:border-primary/30 transition-colors flex flex-col sm:flex-row gap-4">
+                                            <div
+                                                class="w-1.5 bg-orange-400 absolute left-0 top-0 bottom-0 rounded-l-lg">
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-[#0d141c] dark:text-white">Lalbagh Botanical
+                                                    Garden</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Evening walk
+                                                    &amp; sunset view</p>
+                                            </div>
+                                            <div class="w-full sm:w-24 h-24 sm:h-auto rounded-lg bg-cover bg-center shrink-0"
+                                                data-alt="Lush green botanical garden glass house"
+                                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAKKiCH1r0QyGULAgh8OfR4l3_vtSfKBf3eWV5gHhUsuKL_Ndp3pVeH4fn7be8TwhK4KatP1uDN4Vac2JC2pv-hbrQcrENWCoADb96NS1vwQ2a4RZpfy0QS63eFUltomD6FsQvh2QqjR7p8PnVPo3hRJHSqhANmaBN9fN13rauQy_U40mIaRqyO_RiqyqSBfbDzrUj4N74fLZR5YBlmBBrQx32-1p8969bDPMx3ZpzVXbM9deszHCp_VasINsV25fEfwXCwZpupZkQ");'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-0 sm:pl-20 group">
+                            <div
+                                class="absolute left-4 md:left-8 top-6 -translate-x-1/2 size-4 rounded-full border-4 border-white dark:border-[#1A2633] bg-primary hidden sm:block z-10 shadow-sm">
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1e2936] rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md">
+                                <div
+                                    class="bg-gray-50 dark:bg-[#253240] p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-wrap justify-between items-center gap-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-[#0d141c] dark:text-white">Day 2: Bangalore
+                                            Exploration</h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Aug 13 •
+                                            Tuesday</p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button aria-label="Add Note"
+                                            class="p-2 text-slate-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                            <span class="material-symbols-outlined">edit_note</span>
+                                        </button>
+                                        <button aria-label="View on Map"
+                                            class="p-2 text-slate-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                            <span class="material-symbols-outlined">map</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="px-6 pt-6">
+                                    <div
+                                        class="inline-flex items-center gap-3 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700">
+                                        <span class="material-symbols-outlined text-lg">directions_car</span>
+                                        <span class="text-sm font-bold">Local Car Hire</span>
+                                        <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
+                                        <span class="text-sm font-medium">Full Day</span>
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-6">
+                                    <div class="flex gap-4 items-start">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-[#0d141c] dark:text-white">09:00
+                                                AM</span>
+                                        </div>
+                                        <div
+                                            class="relative flex-1 bg-white dark:bg-[#1e2936] rounded-lg border border-gray-100 dark:border-gray-700 p-4 hover:border-primary/30 transition-colors flex flex-col sm:flex-row gap-4">
+                                            <div
+                                                class="w-1.5 bg-purple-500 absolute left-0 top-0 bottom-0 rounded-l-lg">
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-[#0d141c] dark:text-white">Bangalore Palace
+                                                    Tour</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Guided Audio
+                                                    Tour included</p>
+                                            </div>
+                                            <div class="w-full sm:w-24 h-24 sm:h-auto rounded-lg bg-cover bg-center shrink-0"
+                                                data-alt="Exterior view of Bangalore Palace architecture"
+                                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUHZtkwgquCQzHo4b0Du31yek7Gu2s5mx1eWSL9QXre5bgIncQ8qFBAW2IoMgfxh8Sxa_zUCiT-PQR5N2V4uxHXWFOIo61xHWqdsJM7ikvI1m5XfVY8gPthnULZTNLKAG4diHLdzTnFebx-dDdB2nSrbqL6Hnl2ol3YiXC_iP6p_xqpx1PTPH4zAkD8Bs2czRqLKzQZHSfZzP3Djww_SIXPdd7b2coOi1mNkXXN9yql9P_m1pegBsxZbMpnzbq3QI0dHM1eMsKYDg");'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 items-start">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-[#0d141c] dark:text-white">01:00
+                                                PM</span>
+                                        </div>
+                                        <div
+                                            class="relative flex-1 bg-white dark:bg-[#1e2936] rounded-lg border border-gray-100 dark:border-gray-700 p-4 hover:border-primary/30 transition-colors flex gap-4">
+                                            <div
+                                                class="w-1.5 bg-yellow-500 absolute left-0 top-0 bottom-0 rounded-l-lg">
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-[#0d141c] dark:text-white">Lunch at MTR</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Traditional
+                                                    South Indian Thali</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 items-start opacity-70">
+                                        <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                                            <span class="text-sm font-bold text-slate-400 dark:text-slate-500">PM</span>
+                                        </div>
+                                        <button
+                                            class="flex-1 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4 flex items-center justify-center gap-2 text-slate-500 hover:text-primary hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-xl">add_circle</span>
+                                            <span class="font-medium">Add activity for afternoon</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-0 sm:pl-20 group">
+                            <div
+                                class="absolute left-4 md:left-8 top-6 -translate-x-1/2 size-4 rounded-full border-4 border-white dark:border-[#1A2633] bg-primary hidden sm:block z-10 shadow-sm">
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1e2936] rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md opacity-75 hover:opacity-100">
+                                <div
+                                    class="p-4 sm:p-6 flex flex-wrap justify-between items-center gap-4 cursor-pointer">
+                                    <div>
+                                        <h3
+                                            class="text-xl font-bold text-[#0d141c] dark:text-white flex items-center gap-2">
+                                            Day 3: Bangalore <span class="text-slate-400 font-normal text-lg">→</span>
+                                            Mysore
+                                        </h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Aug 14 •
+                                            Wednesday</p>
+                                    </div>
+                                    <span
+                                        class="material-symbols-outlined text-slate-400 transform rotate-180">expand_more</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute left-4 md:left-8 bottom-0 -translate-x-1/2 size-3 rounded-full bg-gray-300 dark:bg-gray-600 hidden sm:block">
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script>
+        // ============= API HELPER =============
+        const API_BASE = 'http://localhost:5000/api';
+
+        async function apiRequest(endpoint) {
+            const res = await fetch(API_BASE + endpoint);
+            return res.json();
+        }
+
+        function showToast(message, type) {
+            document.querySelectorAll('.toast').forEach(t => t.remove());
+            const colors = { success: '#22c55e', error: '#ef4444', warning: '#f59e0b', info: '#3b82f6' };
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.cssText = `position:fixed;bottom:20px;right:20px;background:${colors[type] || colors.info};color:white;padding:12px 24px;border-radius:8px;z-index:9999;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+        }
+
+        function getDayName(dateStr, daysOffset) {
+            const date = new Date(dateStr);
+            date.setDate(date.getDate() + daysOffset);
+            return date.toLocaleDateString('en-IN', { weekday: 'long' });
+        }
+
+        function getModeIcon(mode) {
+            if (mode === 'flight') return 'flight';
+            if (mode === 'bus') return 'directions_bus';
+            return 'train';
+        }
+
+        function getModeName(mode) {
+            if (mode === 'flight') return 'Flight';
+            if (mode === 'bus') return 'Bus';
+            return 'Train';
+        }
+
+        function getTravelTime(mode) {
+            if (mode === 'flight') return '1h 30m';
+            if (mode === 'bus') return '8h 00m';
+            return '5h 30m';
+        }
+
+        // Calculate mock budget
+        function calculateBudget(stops) {
+            let total = 0;
+            stops.forEach(stop => {
+                const travelCost = stop.mode === 'flight' ? 5000 : stop.mode === 'bus' ? 400 : 800;
+                const stayCost = 1500 * (stop.stay_days || 1);
+                total += travelCost + stayCost;
+            });
+            return total;
+        }
+
+        // ============= LOAD AND DISPLAY TRIP =============
+        async function loadTrip() {
+            const tripId = localStorage.getItem('currentTripId');
+
+            if (!tripId) {
+                showToast('No trip selected. Redirecting...', 'warning');
+                setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                return;
+            }
+
+            try {
+                showToast('Loading trip...', 'info');
+                const trip = await apiRequest('/trip/' + tripId);
+                console.log('Loaded trip:', trip);
+
+                if (!trip || !trip.id) {
+                    showToast('Trip not found', 'error');
+                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                    return;
+                }
+
+                displayTrip(trip);
+                showToast('Trip loaded!', 'success');
+
+            } catch (err) {
+                console.error(err);
+                showToast('Error loading trip', 'error');
+            }
+        }
+
+        function displayTrip(trip) {
+            const stops = trip.stops || [];
+
+            // Update trip title
+            const titleEl = document.querySelector('h1');
+            if (titleEl) {
+                titleEl.textContent = trip.name || 'My Trip';
+            }
+
+            // Update date range
+            const dateSpan = document.querySelector('.flex.items-center.gap-2.text-slate-500 span:nth-child(2)');
+            if (dateSpan) {
+                const startDate = formatDate(trip.start_date);
+                const endDate = formatDate(trip.end_date);
+                dateSpan.textContent = startDate && endDate ? `${startDate} - ${endDate}` : startDate || 'Dates not set';
+            }
+
+            // Calculate totals
+            const totalDays = stops.reduce((sum, s) => sum + (s.stay_days || 1), 0);
+            const budget = calculateBudget(stops);
+
+            // Update duration
+            const durationEl = document.querySelector('.text-xl.font-bold');
+            if (durationEl) {
+                durationEl.textContent = totalDays + ' Days';
+            }
+
+            // Update budget
+            const budgetEls = document.querySelectorAll('.text-xl.font-bold');
+            if (budgetEls[1]) {
+                budgetEls[1].textContent = formatCurrency(budget);
+            }
+
+            // Update quick jump sidebar
+            updateQuickJump(stops, trip.start_date);
+
+            // Update timeline / day cards
+            updateTimeline(stops, trip);
+        }
+
+        function updateQuickJump(stops, startDate) {
+            const container = document.querySelector('.flex.flex-col.gap-2[style*="--radio-dot-svg"]');
+            if (!container || stops.length === 0) return;
+
+            let dayNum = 0;
+            container.innerHTML = stops.map((stop, i) => {
+                dayNum++;
+                const dayLabel = `Day ${dayNum}: ${stop.city}`;
+                const checked = i === 0 ? 'checked' : '';
+
+                return `
+          <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group">
+            <input ${checked} class="h-4 w-4 border-2 border-gray-300 bg-transparent text-primary" name="day-nav" type="radio"/>
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary">${dayLabel}</span>
+              <span class="text-xs text-slate-400">${stop.stay_days || 1} day(s) • ${getModeName(stop.mode)}</span>
+            </div>
+          </label>
+        `;
+            }).join('');
+        }
+
+        function updateTimeline(stops, trip) {
+            const container = document.querySelector('.space-y-8.relative');
+            if (!container || stops.length === 0) return;
+
+            let html = '';
+            let dayNum = 0;
+
+            stops.forEach((stop, index) => {
+                dayNum++;
+                const prevCity = index > 0 ? stops[index - 1].city : (trip.start_location || 'Home');
+                const mode = stop.mode || 'train';
+                const stayDays = stop.stay_days || 1;
+                const travelTime = getTravelTime(mode);
+
+                html += `
+          <div class="relative pl-0 sm:pl-20 group">
+            <div class="absolute left-4 md:left-8 top-6 -translate-x-1/2 size-4 rounded-full border-4 border-white dark:border-[#1A2633] bg-primary hidden sm:block z-10 shadow-sm"></div>
+            <div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md">
+              <div class="bg-gray-50 dark:bg-[#253240] p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                  <h3 class="text-xl font-bold text-[#0d141c] dark:text-white flex items-center gap-2">
+                    Day ${dayNum}: ${prevCity} <span class="text-slate-400 font-normal text-lg">→</span> ${stop.city}
+                  </h3>
+                  <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">${stayDays} day stay</p>
+                </div>
+              </div>
+              
+              <!-- Travel Info -->
+              <div class="px-6 pt-6">
+                <div class="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg border border-blue-100 dark:border-blue-800/30">
+                  <span class="material-symbols-outlined text-lg">${getModeIcon(mode)}</span>
+                  <span class="text-sm font-bold">${getModeName(mode)} to ${stop.city}</span>
+                  <span class="w-1 h-1 bg-blue-300 rounded-full"></span>
+                  <span class="text-sm font-medium">${travelTime} Travel</span>
+                </div>
+              </div>
+              
+              <!-- Day Details -->
+              <div class="p-6 space-y-4">
+                <div class="flex gap-4 items-start">
+                  <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                    <span class="text-xs text-slate-400 font-medium">Arrival</span>
+                  </div>
+                  <div class="flex items-start gap-3 flex-1">
+                    <div class="size-8 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400 flex-shrink-0">
+                      <span class="material-symbols-outlined text-lg">check_circle</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-[#0d141c] dark:text-white">Arrive in ${stop.city}</p>
+                      <p class="text-sm text-slate-500 dark:text-slate-400">Check in to accommodation</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex gap-4 items-start">
+                  <div class="min-w-[70px] pt-1 flex flex-col items-end">
+                    <span class="text-xs text-slate-400 font-medium">Stay</span>
+                  </div>
+                  <div class="flex items-start gap-3 flex-1">
+                    <div class="size-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-400 flex-shrink-0">
+                      <span class="material-symbols-outlined text-lg">hotel</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-[#0d141c] dark:text-white">${stayDays} Night${stayDays > 1 ? 's' : ''} in ${stop.city}</p>
+                      <p class="text-sm text-slate-500 dark:text-slate-400">Explore the city and local attractions</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============= INITIALIZE =============
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🌍 GlobeTrotter Itinerary Page Loaded');
+
+            // Edit button handler
+            document.querySelectorAll('button').forEach(btn => {
+                if (btn.textContent.includes('Edit')) {
+                    btn.onclick = function () {
+                        window.location.href = 'create%20trip.html';
+                    };
+                }
+            });
+
+            // Load trip data
+            loadTrip();
+        });
+    </script>
+</body>
+
+</html>

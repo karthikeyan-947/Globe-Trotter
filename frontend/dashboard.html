@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GlobeTrotter Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <header
+            class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-6 py-3 lg:px-10">
+            <div class="flex items-center gap-8">
+                <a class="flex items-center gap-3 text-slate-900 dark:text-white group hover:opacity-90 transition-opacity"
+                    href="#">
+                    <div class="flex items-center gap-2">
+                        <div class="size-8 text-primary transition-transform group-hover:scale-105">
+                            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-extrabold tracking-tight">GlobeTrotter</h2>
+                </a>
+                <div class="hidden md:flex min-w-40 h-10 max-w-64 flex-1">
+                    <div
+                        class="flex w-full items-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+                        <span class="material-symbols-outlined pl-3 text-lg">search</span>
+                        <input
+                            class="w-full bg-transparent border-none focus:ring-0 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400"
+                            placeholder="Search trips..." />
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 lg:gap-8">
+                <nav class="hidden md:flex items-center gap-8">
+                    <a class="text-primary text-sm font-bold hover:text-primary/80 transition-colors"
+                        href="dashboard.html">Dashboard</a>
+                    <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+                        href="dashboard.html">My Trips</a>
+                    <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+                        href="budget%20summary.html">Budget</a>
+                    <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+                        href="create%20trip.html">Create Trip</a>
+                </nav>
+                <div class="flex items-center gap-4 border-l border-slate-200 dark:border-slate-800 pl-4 lg:pl-8">
+                    <button
+                        class="flex items-center justify-center p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors relative">
+                        <span class="material-symbols-outlined fill-1">notifications</span>
+                        <span class="absolute top-2 right-2 flex h-2.5 w-2.5">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span
+                                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border border-white dark:border-slate-900"></span>
+                        </span>
+                    </button>
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white dark:border-slate-800 shadow-sm cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all"
+                        data-alt="User profile picture showing a smiling person"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfsvjcP20tQgDX4eAlHGZr6g58YXYLrD2AW1nbDt3EH3Hm75Xhar5uMO4HbKcQbUoOTu7Tcv5YuH0eKaHTLvik9SBzR5mnawXeOlapK6xzUM3JdmRr2zfwJh0SThyAbEI9jWOe2J8obxbPqupApMs87FE_k09xUplZ_3MRtOTAAE-1_qxHi0wbumfHwwDQqkngaRkFbWWOE4pA1pjTYspPQxqyAyv8nxIHuPjpZHCSS4nhTY24TlYRNZrv3Wk-zpgGuuLPIHJrIJk");'>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 px-4 lg:px-40 py-8">
+            <div class="mx-auto max-w-6xl space-y-8">
+                <div
+                    class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                    <div class="flex min-w-72 flex-col gap-2">
+                        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                            Welcome, Traveler
+                        </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg font-medium">
+                            Ready for your next adventure?
+                        </p>
+                    </div>
+                    <button
+                        class="group flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-white shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/40 active:scale-95 transition-all duration-200">
+                        <span class="material-symbols-outlined text-xl">add_circle</span>
+                        <span class="text-sm font-bold">Plan New Trip</span>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div
+                        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-primary">
+                                <span class="material-symbols-outlined text-xl">flight_takeoff</span>
+                            </div>
+                            <span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Trips</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">12</p>
+                    </div>
+                    <div
+                        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div
+                                class="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg text-emerald-600 dark:text-emerald-400">
+                                <span class="material-symbols-outlined text-xl">public</span>
+                            </div>
+                            <span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Countries</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">5</p>
+                    </div>
+                    <div
+                        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div
+                                class="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg text-amber-600 dark:text-amber-400">
+                                <span class="material-symbols-outlined text-xl">calendar_month</span>
+                            </div>
+                            <span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Days Traveling</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">48</p>
+                    </div>
+                    <div
+                        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div
+                                class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
+                                <span class="material-symbols-outlined text-xl">upcoming</span>
+                            </div>
+                            <span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Upcoming</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">2</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Your Itineraries</h3>
+                        <div class="flex gap-2">
+                            <button class="p-2 text-slate-400 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined">grid_view</span>
+                            </button>
+                            <button
+                                class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                                <span class="material-symbols-outlined">list</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div
+                            class="group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            <div class="relative w-full aspect-video overflow-hidden rounded-lg">
+                                <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Skyline of Bangalore city at sunset with modern buildings"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdtsNeCohYY24LYPoy87W9jFq7ZU4ojmlXtK9pRhYQaI-Q8tGawPqz_SVY4j-mdd0lycuU4KIh8On2DemsuZGtJpvJVIBPjQ2JrL35HZNwT1PBd-6AadqWwCn5HRDF72gHn5ncxb1nJ9DANBkwS60qGgVqb5G1CSpXE5B7JESstRSIzXjaLCBD_8rXCRr_uGxSzJ6PyA7pfsJVHNoINhr8r-XK62m0ufF962qZpIH2EXo_ZOFv7rF7gZgl-YmFsHcsxNPTIFzFnR4");'>
+                                </div>
+                                <div class="absolute top-3 right-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/60 px-2.5 py-0.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300 ring-1 ring-inset ring-emerald-600/20 backdrop-blur-sm">
+                                        Upcoming
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 px-1 pb-2">
+                                <div class="flex justify-between items-start">
+                                    <h4
+                                        class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
+                                        Chennai → Bangalore</h4>
+                                    <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                                        <span class="material-symbols-outlined text-xl">more_vert</span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                                    <span class="material-symbols-outlined text-base">calendar_today</span>
+                                    <span>Oct 12 - Oct 15, 2023</span>
+                                </div>
+                                <div
+                                    class="mt-3 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3">
+                                    <span class="text-xs text-slate-400 font-medium">4 Days • 2 Cities</span>
+                                    <a class="text-sm font-semibold text-primary hover:underline" href="#">View
+                                        Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            <div class="relative w-full aspect-video overflow-hidden rounded-lg">
+                                <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-500 grayscale-[20%]"
+                                    data-alt="Traditional Kerala houseboats on backwaters in Kochi"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7Gu2KajLxYJFjQQOiWyXv6k1byCSTmfbhYIqC6VK1YjDihRUS14D1wa3HopTf5oqaaoFCQd2NvHz18c2UQkxYfPVKl3P4ILsh5PX-XZddHnugqvBF-xo4TMAfW3vl6l1zo13h9JG5WIdse5i6_K4VJ2PvQozVx2j53xPDQFAUeVafErdAgeMnN5NK32OJ4X8oxpX7IniWIL3HYg_WyeflmIxqUBSwnjLfVi6eimLu92vSbuP_mA06_oIehQE0pka-VeHFKMRu0Yk");'>
+                                </div>
+                                <div class="absolute top-3 right-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700/60 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:text-slate-300 ring-1 ring-inset ring-slate-500/10 backdrop-blur-sm">
+                                        Draft
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 px-1 pb-2">
+                                <div class="flex justify-between items-start">
+                                    <h4
+                                        class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
+                                        Coimbatore → Kochi</h4>
+                                    <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                                        <span class="material-symbols-outlined text-xl">more_vert</span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                                    <span class="material-symbols-outlined text-base">calendar_today</span>
+                                    <span>Nov 05 - Nov 10, 2023</span>
+                                </div>
+                                <div
+                                    class="mt-3 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3">
+                                    <span class="text-xs text-slate-400 font-medium">6 Days • 3 Activities</span>
+                                    <a class="text-sm font-semibold text-primary hover:underline" href="#">Continue
+                                        Editing</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            <div class="relative w-full aspect-video overflow-hidden rounded-lg">
+                                <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Scenic beach in Goa with palm trees and blue water"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMFfgb7NBwiunXstkkoph6x8TFuLE9itmApZhYYDF84JBf7kPH1H-y6xyIO4Nh7JfA4lkm0HnnAFFYLgLUH41JdgxQC6h2cUhNkW2NYFHjsCaKlLA9khpy-q1E6AGYM5cSh6o5YGtNo2raRZA6rVT3r18HPAK3sNiySukqc1Hul75TBeu190rtCPEU0wsI7YemrNVyFwQs3jLeyG0VzMkUT0fAy3gDUGjOz9YM5juc0AiNWtiHPN_5mi3Ej94K8ZZkDkw4A2vDasY");'>
+                                </div>
+                                <div class="absolute top-3 right-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/60 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300 ring-1 ring-inset ring-amber-600/20 backdrop-blur-sm">
+                                        Planning
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 px-1 pb-2">
+                                <div class="flex justify-between items-start">
+                                    <h4
+                                        class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
+                                        Mumbai → Goa</h4>
+                                    <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                                        <span class="material-symbols-outlined text-xl">more_vert</span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                                    <span class="material-symbols-outlined text-base">calendar_today</span>
+                                    <span>Dec 20 - Dec 28, 2023</span>
+                                </div>
+                                <div
+                                    class="mt-3 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3">
+                                    <span class="text-xs text-slate-400 font-medium">9 Days • 1 City</span>
+                                    <a class="text-sm font-semibold text-primary hover:underline" href="#">View
+                                        Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="group relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-3 min-h-[300px] hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer text-slate-400 hover:text-primary">
+                            <div
+                                class="rounded-full bg-slate-200 dark:bg-slate-700 p-4 group-hover:bg-primary/20 transition-colors">
+                                <span class="material-symbols-outlined text-3xl">add</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-lg font-bold group-hover:text-primary transition-colors">Create New Trip
+                                </p>
+                                <p class="text-sm text-slate-500">Start planning your next adventure</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // ============= API HELPER =============
+        const API_BASE = 'http://localhost:5000/api';
+
+        async function apiRequest(endpoint, options = {}) {
+            const res = await fetch(API_BASE + endpoint, {
+                headers: { 'Content-Type': 'application/json' },
+                ...options
+            });
+            return res.json();
+        }
+
+        function showToast(message, type) {
+            document.querySelectorAll('.toast').forEach(t => t.remove());
+            const colors = { success: '#22c55e', error: '#ef4444', warning: '#f59e0b', info: '#3b82f6' };
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.cssText = `position:fixed;bottom:20px;right:20px;background:${colors[type] || colors.info};color:white;padding:12px 24px;border-radius:8px;z-index:9999;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Date not set';
+            return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // ============= LOAD TRIPS =============
+        async function loadTrips() {
+            try {
+                showToast('Loading trips...', 'info');
+                const trips = await apiRequest('/trip');
+                console.log('Loaded trips:', trips);
+
+                // Update stats
+                updateStats(trips);
+
+                // Render trip cards
+                renderTrips(trips);
+
+                showToast(`Loaded ${trips.length} trip(s)`, 'success');
+
+            } catch (err) {
+                console.error(err);
+                showToast('Error loading trips', 'error');
+            }
+        }
+
+        function updateStats(trips) {
+            // Update total trips count
+            const statsCards = document.querySelectorAll('.text-2xl.font-bold.text-primary');
+            if (statsCards[0]) {
+                statsCards[0].textContent = trips.length;
+            }
+
+            // Count unique cities
+            const cities = new Set();
+            trips.forEach(trip => {
+                if (trip.stops) {
+                    trip.stops.forEach(stop => cities.add(stop.city));
+                }
+            });
+
+            if (statsCards[1]) {
+                statsCards[1].textContent = cities.size;
+            }
+        }
+
+        function renderTrips(trips) {
+            const container = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3');
+            if (!container) return;
+
+            // Clear existing cards
+            container.innerHTML = '';
+
+            // Add trip cards
+            trips.forEach(trip => {
+                const card = createTripCard(trip);
+                container.appendChild(card);
+            });
+
+            // Add "Create New Trip" button
+            const createBtn = document.createElement('button');
+            createBtn.className = 'group relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-3 min-h-[300px] hover:border-primary hover:bg-primary/5 transition-all cursor-pointer text-slate-400 hover:text-primary';
+            createBtn.innerHTML = `
+        <div class="rounded-full bg-slate-200 dark:bg-slate-700 p-4 group-hover:bg-primary/20 transition-colors">
+          <span class="material-symbols-outlined text-3xl">add</span>
+        </div>
+        <div class="text-center">
+          <p class="text-lg font-bold group-hover:text-primary transition-colors">Create New Trip</p>
+          <p class="text-sm text-slate-500">Plan your next adventure</p>
+        </div>
+      `;
+            createBtn.onclick = () => window.location.href = 'create%20trip.html';
+            container.appendChild(createBtn);
+        }
+
+        function createTripCard(trip) {
+            const card = document.createElement('div');
+            card.className = 'group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300';
+
+            const stopsCount = trip.stops ? trip.stops.length : 0;
+            const stopsList = trip.stops ? trip.stops.map(s => s.city).join(' → ') : 'No stops';
+
+            card.innerHTML = `
+        <div class="relative w-full aspect-video overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5">
+          <div class="w-full h-full flex items-center justify-center">
+            <span class="material-symbols-outlined text-6xl text-primary/30">flight_takeoff</span>
+          </div>
+          <div class="absolute top-3 right-3">
+            <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-600/20">
+              ${stopsCount} Stop${stopsCount !== 1 ? 's' : ''}
+            </span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1 px-1 pb-2">
+          <div class="flex justify-between items-start">
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">${trip.name}</h4>
+            <button class="delete-btn text-slate-400 hover:text-red-500 transition-colors" data-id="${trip.id}">
+              <span class="material-symbols-outlined text-xl">delete</span>
+            </button>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">${stopsList}</p>
+          <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mt-1">
+            <span class="material-symbols-outlined text-base">calendar_today</span>
+            <span>${formatDate(trip.start_date)}</span>
+          </div>
+          <div class="mt-3 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3">
+            <span class="text-xs text-slate-400 font-medium">${stopsCount} Cities</span>
+            <button class="view-btn text-sm font-semibold text-primary hover:underline" data-id="${trip.id}">View Details →</button>
+          </div>
+        </div>
+      `;
+
+            // Delete handler
+            card.querySelector('.delete-btn').onclick = async (e) => {
+                e.stopPropagation();
+                if (confirm('Delete this trip?')) {
+                    try {
+                        await apiRequest('/trip/' + trip.id, { method: 'DELETE' });
+                        card.remove();
+                        showToast('Trip deleted', 'success');
+                    } catch (err) {
+                        showToast('Error deleting trip', 'error');
+                    }
+                }
+            };
+
+            // View handler
+            card.querySelector('.view-btn').onclick = () => {
+                localStorage.setItem('currentTripId', trip.id);
+                window.location.href = 'itinerary.html';
+            };
+
+            return card;
+        }
+
+        // ============= INITIALIZE =============
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🌍 GlobeTrotter Dashboard Loaded');
+
+            // Handle Plan New Trip buttons
+            document.querySelectorAll('button').forEach(btn => {
+                if (btn.textContent.includes('Plan New Trip') || btn.textContent.includes('New Trip')) {
+                    btn.onclick = () => window.location.href = 'create%20trip.html';
+                }
+            });
+
+            // Load trips from database
+            loadTrips();
+        });
+    </script>
+</body>
+
+</html>
